@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Login } from './login/login';
-import { Signup } from './signup/signup';
+import { Navbar } from './navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [Login, Signup, RouterOutlet],
-  template: '<router-outlet></router-outlet>',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [RouterOutlet, Navbar],
+  template: `
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  `,
 })
-export class App {
-}
+export class App {}
