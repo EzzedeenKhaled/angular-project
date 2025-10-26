@@ -1,5 +1,4 @@
 .navbar {
-  position: sticky;
   z-index: 50;
   border-bottom: 1px solid #e3e8ee;
   background: #fff;
@@ -53,13 +52,12 @@
 .nav-link {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
   padding: 0.5rem 1.2rem;
   border-radius: 0.75rem;
   font-weight: 500;
   color: #667eea;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .nav-link mat-icon {
@@ -98,19 +96,37 @@
     height: auto;
     padding-top: 0.6rem;
   }
-
-  .nav-links {
-    width: 100%;
-    justify-content: space-around;
-    margin-top: 0.5rem;
-  }
-  
-  .brand {
-    font-size: 1rem;
-  }
 }
-.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff !important;
-  box-shadow: 0 2px 8px rgba(102,126,234,0.15);
+
+.cart-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-top: 5px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.cart-btn:hover {
+  background: #e3f2fd;
+  color: #764ba2;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ff4757;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
 }

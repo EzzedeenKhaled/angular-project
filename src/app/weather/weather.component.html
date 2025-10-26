@@ -1,1 +1,94 @@
-<p>weather.component works!</p>
+<div class="weather-container">
+  <div class="search-section">
+    <mat-card class="search-card">
+      <div class="search-content">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search city</mat-label>
+          <input matInput [(ngModel)]="searchQuery" (keyup.enter)="searchLocation()" placeholder="Enter city name...">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <button (click)="searchLocation()" class="search-btn">
+          Search
+        </button>
+      </div>
+      <p>{{ error }}</p>
+    </mat-card>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading weather data...</p>
+  </div>
+
+  <div *ngIf="weatherData && !loading" class="weather-content">
+    <mat-card class="current-weather-card">
+      <div class="location-header">
+        <div>
+          <h2>{{ currentLocation?.name }}</h2>
+          <p class="country">{{ currentLocation?.country }}</p>
+        </div>
+        <mat-icon class="weather-icon-large">{{ getWeatherIcon(weatherData!.current.weather_code) }}</mat-icon>
+      </div>
+
+      <div class="temperature-section">
+        <div class="main-temp">
+          <span class="temp-value">{{ weatherData!.current.temperature_2m }}°</span>
+          <span class="temp-unit">C</span>
+        </div>
+        <div class="weather-description">
+          <p>{{ getWeatherDescription(weatherData!.current.weather_code) }}</p>
+          <p class="feels-like">Feels like {{ weatherData!.current.apparent_temperature }}°C</p>
+        </div>
+      </div>
+
+      <div class="weather-details">
+        <div class="detail-item">
+          <mat-icon>water_drop</mat-icon>
+          <div>
+            <p class="detail-label">Humidity</p>
+            <p class="detail-value">{{ weatherData!.current.relative_humidity_2m }}%</p>
+          </div>
+        </div>
+        <div class="detail-item">
+          <mat-icon>air</mat-icon>
+          <div>
+            <p class="detail-label">Wind Speed</p>
+            <p class="detail-value">{{ weatherData!.current.wind_speed_10m }} km/h</p>
+          </div>
+        </div>
+        <div class="detail-item">
+          <mat-icon>umbrella</mat-icon>
+          <div>
+            <p class="detail-label">Precipitation</p>
+            <p class="detail-value">{{ weatherData!.current.precipitation }} mm</p>
+          </div>
+        </div>
+        <div class="detail-item">
+          <mat-icon>explore</mat-icon>
+          <div>
+            <p class="detail-label">Wind Direction</p>
+            <p class="detail-value">{{ weatherData!.current.wind_direction_10m }}°</p>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <div class="forecast-section">
+      <h3 class="forecast-title">7-Day Forecast</h3>
+      <div class="forecast-grid">
+        <mat-card *ngFor="let day of forecastDays; let i = index" class="forecast-card">
+          <p class="forecast-day">{{ formatDay(day) }}</p>
+          <mat-icon class="forecast-icon">{{ getWeatherIcon(weatherData!.daily.weather_code[i]) }}</mat-icon>
+          <div class="forecast-temps">
+            <span class="temp-max">{{ weatherData!.daily.temperature_2m_max[i] }}°</span>
+            <span class="temp-min">{{ weatherData!.daily.temperature_2m_min[i] }}°</span>
+          </div>
+          <p class="forecast-precip">
+            <mat-icon>water_drop</mat-icon>
+            {{ weatherData!.daily.precipitation_sum[i] }}mm
+          </p>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

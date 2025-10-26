@@ -1,0 +1,27 @@
+<div class="product-card">
+  <div class="product-image-wrapper">
+    <img [src]="product.image" [alt]="product.title" class="product-image">
+  </div>
+
+  <div class="product-content">
+    <span class="product-category">{{ product.category }}</span>
+    <h3 class="product-title">{{ product.title }}</h3>
+
+    <div class="rating">
+      <span *ngFor="let filled of getStarArray(product.rating.rate)" class="star" [class.filled]="filled">★</span>
+      <span class="rating-count">({{ product.rating.count }})</span>
+    </div>
+
+    <p class="product-description">{{ product.description }}</p>
+
+    <div class="product-footer">
+      <span class="product-price">${{ product.price.toFixed(2) }}</span>
+      <button 
+        (click)="onAddToCart()" 
+        class="add-to-cart-btn"
+        [class.added]="isAdded">
+        {{ isAdded ? 'Added!' : 'Add to Cart' }}
+      </button>
+    </div>
+  </div>
+</div>

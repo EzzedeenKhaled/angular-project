@@ -23,8 +23,6 @@ export class AuthService {
   login(email: string, password: string) {
     return from(
       signInWithEmailAndPassword(this.auth, email, password).then((result) => {
-        // this.currentUser.set(result.user);
-        // this.isAuthenticated.set(true);
         this.router.navigate(['/weather']);
         return result;
       })
@@ -34,8 +32,6 @@ export class AuthService {
   signup(email: string, password: string) {
     return from(
       createUserWithEmailAndPassword(this.auth, email, password).then((result) => {
-        // this.currentUser.set(result.user);
-        // this.isAuthenticated.set(true);
         this.router.navigate(['/weather']);
         return result;
       })
@@ -44,17 +40,16 @@ export class AuthService {
 
   logout(): void {
     signOut(this.auth).then(() => {
-      // this.currentUser.set(null);
-      // this.isAuthenticated.set(false);
       this.router.navigate(['/login']);
     });
   }
 
-  // getUser() {
-  //   return this.currentUser();
-  // }
-
-  // isLoggedIn(): boolean {
-  //   return this.isAuthenticated();
-  // }
+  getAuthState(): Promise<boolean> {
+    return new Promise((resolve) => {
+      const unsub = this.auth.onAuthStateChanged((user) => {
+        resolve(!!user);
+        unsub();
+      });
+    });
+  }
 }

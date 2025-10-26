@@ -1,0 +1,27 @@
+<div class="shop-container">
+  <div class="main-content">
+    <div class="category-filter">
+      <button 
+        *ngFor="let category of categories"
+        (click)="selectCategory(category)"
+        [class.active]="selectedCategory === category"
+        class="category-btn">
+        {{ category }}
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Loading products...</p>
+    </div>
+
+    <div *ngIf="!loading" class="products-grid">
+  <app-product-card 
+    *ngFor="let product of filteredProducts"
+    [product]="product"
+    [isAdded]="isAdded(product.id)"
+    (addToCart)="addToCart($event)">
+  </app-product-card>
+    </div>
+  </div>
+</div>
