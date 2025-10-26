@@ -1,21 +1,13 @@
 import { Injectable, signal, computed } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class CartService {
-  private cartItems = signal<Map<number, number>>(new Map());
+  private count = signal(0); // Tracks number of items in cart
 
-  cartCount = computed(() => {
-    let total = 0;
-    this.cartItems().forEach(quantity => total += quantity);
-    return total;
-  });
+  cartCount = computed(() => this.count()); // Exposed computed count
 
-  addToCart(productId: number): void {
-    const currentCart = new Map(this.cartItems());
-    const currentQuantity = currentCart.get(productId) || 0;
-    currentCart.set(productId, currentQuantity + 1);
-    this.cartItems.set(currentCart);
+  // Increment cart count
+  addToCart(): void {
+    this.count.set(this.count() + 1);
   }
 }

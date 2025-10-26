@@ -3,13 +3,14 @@ import { WeatherData, Location } from '../models/weather.models';
 
 @Injectable({ providedIn: 'root' })
 export class WeatherService {
-  weatherData = signal<WeatherData | null>(null);
-  currentLocation = signal<Location | null>(null);
-  loading = signal(false);
-  error = signal<string | null>(null);
+  weatherData = signal<WeatherData | null>(null); // Holds weather API data
+  currentLocation = signal<Location | null>(null); // Selected city location
+  loading = signal(false); // Loading state
+  error = signal<string | null>(null); // Error message
 
-  forecastDays = computed(() => this.weatherData()?.daily.time || []);
+  forecastDays = computed(() => this.weatherData()?.daily.time || []); // 7-day forecast dates
 
+  // Map weather code to Material icon
   getWeatherIcon(code: number): string {
     const weatherIcons: { [key: number]: string } = {
       0: 'wb_sunny', 1: 'wb_sunny', 2: 'cloud_queue', 3: 'cloud',
@@ -21,6 +22,7 @@ export class WeatherService {
     return weatherIcons[code] || 'wb_sunny';
   }
 
+  // Map weather code to description
   getWeatherDescription(code: number): string {
     const descriptions: { [key: number]: string } = {
       0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
@@ -34,18 +36,15 @@ export class WeatherService {
     return descriptions[code] || 'Unknown';
   }
 
+  // Format date as Today/Tomorrow/Weekday
   formatDay(dateStr: string): string {
     const date = new Date(dateStr);
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    if (date.toDateString() === today.toDateString()) {
-      return 'Today';
-    } else if (date.toDateString() === tomorrow.toDateString()) {
-      return 'Tomorrow';
-    } else {
-      return date.toLocaleDateString('en-US', { weekday: 'short' });
-    }
+    if (date.toDateString() === today.toDateString()) return 'Today';
+    else if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow';
+    else return date.toLocaleDateString('en-US', { weekday: 'short' });
   }
 }

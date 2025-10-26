@@ -21,11 +21,22 @@
   gap: 1rem;
 }
 
-.search-section p {
-  font-size: 1rem;
-  margin: 0;
-  color: red;
-  font-weight: 500;
+.error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 10;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
 }
 
 .search-field {
@@ -50,6 +61,7 @@
   height: 56px;
   border: none;
   padding: 0 2rem;
+  cursor: pointer;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   font-weight: 600;

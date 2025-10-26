@@ -1,28 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { inject } from '@angular/core';
 
 @Component({
-  selector: 'app-signup',
-  imports: [RouterLink, FormsModule],
+  selector: 'app-signup', // Component selector
+  standalone: true, // Standalone component (no module required)
+  imports: [RouterLink, FormsModule], // Required imports for template
   templateUrl: './signup.html',
-  styleUrl: './signup.css'
+  styleUrls: ['./signup.css']
 })
 export class Signup {
 
-  email = '';
-  password = '';
-  confirmPassword = '';
+  name = ''; // User's full name
+  email = ''; // User's email
+  password = ''; // User's password
+  confirmPassword = ''; // Password confirmation
 
-  authService = inject(AuthService);
+  errorMessage = signal<string>(''); // Signal to store error messages
+
+  authService = inject(AuthService); // Inject AuthService for signup
 
   signup() {
+    this.errorMessage.set(''); // Clear previous errors
+
+    // Check if name is empty
+    if (!this.name.trim()) {
+      this.errorMessage.set('Name cannot be empty');
+      return;
+    }
+
+    // Check if email is empty
+    if (!this.email.trim()) {
+      this.errorMessage.set('Email cannot be empty');
+      return;
+    }
+
+    // Check if passwords match
     if (this.password !== this.confirmPassword) {
-      alert('Passwords do not match!');
+      this.errorMessage.set('Passwords do not match!');
       return;          
     }
-    this.authService.signup(this.email, this.password);
+
+    // Check password length
+    if (this.password.length < 6) {
+      this.errorMessage.set('Password must be at least 6 characters long');
+      return;
+    }
+
+    // Attempt signup
+    try {
+      this.authService.signup(this.email, this.password);
+    } catch (err) {
+      // Handle signup errors
+      this.errorMessage.set(err instanceof Error ? err.message : 'An error occurred during signup');
+    }
   }
 }

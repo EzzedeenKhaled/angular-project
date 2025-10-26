@@ -10,14 +10,16 @@ import { Product } from '../models/shop.model';
   styleUrls: ['./product-card.css']
 })
 export class ProductCard {
-  @Input() product!: Product;
-  @Input() isAdded: boolean = false;
-  @Output() addToCart = new EventEmitter<number>();
+  @Input() product!: Product; // Product data to display
+  @Input() isAdded: boolean = false; // Animation flag when added to cart
+  @Output() addToCart = new EventEmitter<number>(); // Emit product ID on add
 
+  // Generate array for star rating display
   getStarArray(rating: number): boolean[] {
     return Array(5).fill(false).map((_, i) => i < Math.round(rating));
   }
 
+  // Trigger add to cart event
   onAddToCart(): void {
     this.addToCart.emit(this.product.id);
   }

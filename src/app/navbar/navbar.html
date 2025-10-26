@@ -1,0 +1,42 @@
+<!-- Show navbar only if user is logged in -->
+<nav class="navbar" *ngIf="isLoggedIn()">
+  <div class="container">
+    
+    <!-- Logo linking to weather page -->
+    <a routerLink="/weather" class="logo">
+      <span class="logo-bg">
+        <mat-icon>cloud</mat-icon>
+      </span>
+      <span class="brand">StormShop</span>
+    </a>
+
+    <!-- Navigation links and buttons -->
+    <div class="nav-links">
+      <!-- Weather page link -->
+      <a routerLink="/weather" routerLinkActive="active" class="nav-link">
+        <mat-icon>cloud</mat-icon>
+        <span>Weather</span>
+      </a>
+
+      <!-- Shop page link -->
+      <a routerLink="/shop" routerLinkActive="active" class="nav-link">
+        <mat-icon>shopping_bag</mat-icon>
+        <span>Shop</span>
+      </a>
+
+      <!-- Cart button with badge -->
+      <button class="cart-btn" routerLink="/shop">
+        <mat-icon>shopping_cart</mat-icon>
+        <span class="cart-badge" *ngIf="cartCount() > 0">
+          {{ cartCount() }}
+        </span>
+      </button>
+
+      <!-- Logout button -->
+      <button class="logout-btn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+
+  </div>
+</nav>

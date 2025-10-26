@@ -1,27 +1,37 @@
 <div class="shop-container">
   <div class="main-content">
+    
+    <!-- Category filter buttons -->
     <div class="category-filter">
-      <button 
-        *ngFor="let category of categories"
-        (click)="selectCategory(category)"
-        [class.active]="selectedCategory === category"
-        class="category-btn">
+      <button *ngFor="let category of categories" 
+              (click)="selectCategory(category)"
+              [class.active]="selectedCategory === category" 
+              class="category-btn">
         {{ category }}
       </button>
     </div>
 
+    <!-- Loading spinner -->
     <div *ngIf="loading" class="loading">
       <div class="spinner"></div>
       <p>Loading products...</p>
     </div>
 
+    <!-- Products grid -->
     <div *ngIf="!loading" class="products-grid">
-  <app-product-card 
-    *ngFor="let product of filteredProducts"
-    [product]="product"
-    [isAdded]="isAdded(product.id)"
-    (addToCart)="addToCart($event)">
-  </app-product-card>
+      
+      <!-- Error message -->
+      <div *ngIf="error" class="error-message">
+        {{ error }}
+      </div>
+
+      <!-- Product cards -->
+      <app-product-card *ngFor="let product of filteredProducts" 
+        [product]="product" 
+        [isAdded]="isAdded(product.id)"
+        (addToCart)="addToCart($event)">
+      </app-product-card>
+
     </div>
   </div>
 </div>

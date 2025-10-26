@@ -16,56 +16,47 @@ import { Product } from '../models/shop.model';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
-  private cartService = inject(CartService);
-  
-  private shopService = inject(ShopService);
+  private cartService = inject(CartService); // Inject cart service
+  private http = inject(HttpClient); // Inject HttpClient
+  private shopService = inject(ShopService); // Inject shop service
 
-  private http = inject(HttpClient);
+  // Signals from ShopService
+  get products() { return this.shopService.products(); }
+  get loading() { return this.shopService.loading(); }
+  get categories() { return this.shopService.categories(); }
+  get filteredProducts() { return this.shopService.filteredProducts(); }
+  get selectedCategory() { return this.shopService.selectedCategory(); }
+  get addedAnimation() { return this.shopService.addedAnimation(); }
+  get error() { return this.shopService.error(); }
 
-  get products() {
-    return this.shopService.products();
-  }
-  get loading() {
-    return this.shopService.loading();
-  }
-  get categories() {
-    return this.shopService.categories();
-  }
-  get filteredProducts() {
-    return this.shopService.filteredProducts();
-  }
-  get selectedCategory() {
-    return this.shopService.selectedCategory();
-  }
-  get addedAnimation() {
-    return this.shopService.addedAnimation();
-  }
+  // Fetch products on init
+  ngOnInit(): void { this.fetchProducts(); }
 
-  ngOnInit(): void {
-    this.fetchProducts();
-  }
-
+  // Fetch products from API
   fetchProducts(): void {
     this.http.get<Product[]>('https://fakestoreapi.com/products')
       .subscribe({
         next: (data) => {
           this.shopService.products.set(data);
           this.shopService.loading.set(false);
+          this.shopService.error.set(null);
         },
-        error: (error) => {
-          console.error('Error fetching products:', error);
+        error: () => {
           this.shopService.loading.set(false);
+          this.shopService.error.set('Failed to fetch products. Please try again.');
         }
       });
   }
 
+  // Add product to cart with animation
   addToCart(productId: number): void {
-    this.cartService.addToCart(productId);
+    this.cartService.addToCart();
 
     const animations = new Set(this.shopService.addedAnimation());
     animations.add(productId);
     this.shopService.addedAnimation.set(animations);
 
+    // Remove animation after 1s
     setTimeout(() => {
       const animations = new Set(this.shopService.addedAnimation());
       animations.delete(productId);
@@ -73,10 +64,12 @@ export class ShopComponent implements OnInit {
     }, 1000);
   }
 
+  // Change selected category
   selectCategory(category: string): void {
     this.shopService.selectedCategory.set(category);
   }
 
+  // Check if product is added
   isAdded(productId: number): boolean {
     return this.shopService.addedAnimation().has(productId);
   }

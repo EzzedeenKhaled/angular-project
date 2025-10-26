@@ -10,6 +10,12 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { WeatherData } from '../models/weather.models';
 import { WeatherService } from '../services/weather.service';
+
+/**
+ * WeatherComponent
+ * Standalone Angular component for searching and displaying weather information.
+ * Fetches current weather and 7-day forecast using Open-Meteo API.
+ */
 @Component({
   selector: 'app-weather',
   standalone: true,
@@ -27,28 +33,41 @@ import { WeatherService } from '../services/weather.service';
   styleUrl: './weather.component.css'
 })
 export class WeatherComponent implements OnInit {
+  // Inject HttpClient for API calls
   private http = inject(HttpClient);
+
+  // Inject WeatherService for storing state
   weatherService = inject(WeatherService);
+
+  // Search query for user input
   searchQuery = '';
 
   ngOnInit() {
+    // Default city search on component init
     this.searchQuery = 'Beirut';
     this.searchLocation();
   }
 
+  // Getter for reactive weather data
   get weatherData() { return this.weatherService.weatherData(); }
   get forecastDays() { return this.weatherService.forecastDays(); }
   get currentLocation() { return this.weatherService.currentLocation(); }
   get loading() { return this.weatherService.loading(); }
   get error() { return this.weatherService.error(); }
-  
+
+  /**
+   * Searches for a location using the geocoding API
+   * Updates weatherService with location or error
+   */
   searchLocation() {
     if (!this.searchQuery.trim()) {
       this.weatherService.error.set('Please enter a city name');
       return;
     }
+
     this.weatherService.loading.set(true);
     this.weatherService.error.set(null);
+
     this.http.get<any>(`https://geocoding-api.open-meteo.com/v1/search?name=${this.searchQuery}&count=1&language=en&format=json`)
       .subscribe({
         next: (data) => {
@@ -66,13 +85,17 @@ export class WeatherComponent implements OnInit {
             this.weatherService.loading.set(false);
           }
         },
-        error: (err) => {
+        error: () => {
           this.weatherService.error.set('Failed to search location. Please try again.');
           this.weatherService.loading.set(false);
         }
       });
   }
 
+  /**
+   * Fetch weather data for given coordinates
+   * Updates weatherService with current weather, daily forecast, and error state
+   */
   private fetchWeatherData(lat: number, lon: number) {
     const url = 'https://api.open-meteo.com/v1/forecast';
     const params = {
@@ -96,14 +119,17 @@ export class WeatherComponent implements OnInit {
     });
   }
 
+  /** Returns icon for a weather code */
   getWeatherIcon(code: number): string {
     return this.weatherService.getWeatherIcon(code);
   }
 
+  /** Returns description for a weather code */
   getWeatherDescription(code: number): string {
     return this.weatherService.getWeatherDescription(code);
   }
 
+  /** Formats a date string for display in the forecast */
   formatDay(dateStr: string): string {
     return this.weatherService.formatDay(dateStr);
   }
