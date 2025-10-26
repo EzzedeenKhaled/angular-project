@@ -7,7 +7,7 @@ import { inject } from '@angular/core';
 import { ProductCard } from '../product-card/product-card';
 import { ShopService } from '../services/shop.service';
 import { Product } from '../models/shop.model';
-
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-shop',
   standalone: true,
@@ -16,6 +16,8 @@ import { Product } from '../models/shop.model';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
+
+  private title = inject(Title); // Inject Angular's Title service for setting the browser tab title
   private cartService = inject(CartService); // Inject cart service
   private http = inject(HttpClient); // Inject HttpClient
   private shopService = inject(ShopService); // Inject shop service
@@ -30,7 +32,11 @@ export class ShopComponent implements OnInit {
   get error() { return this.shopService.error(); }
 
   // Fetch products on init
-  ngOnInit(): void { this.fetchProducts(); }
+  ngOnInit(): void {
+    // Set the page title to "Shop"
+    this.title.setTitle('Shop');
+    this.fetchProducts(); 
+  }
 
   // Fetch products from API
   fetchProducts(): void {

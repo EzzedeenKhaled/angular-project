@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { WeatherData } from '../models/weather.models';
 import { WeatherService } from '../services/weather.service';
-
+import { Title } from '@angular/platform-browser';
 /**
  * WeatherComponent
  * Standalone Angular component for searching and displaying weather information.
@@ -33,6 +33,9 @@ import { WeatherService } from '../services/weather.service';
   styleUrl: './weather.component.css'
 })
 export class WeatherComponent implements OnInit {
+  
+  private title = inject(Title); // Inject Angular's Title service for setting the browser tab title
+
   // Inject HttpClient for API calls
   private http = inject(HttpClient);
 
@@ -43,6 +46,8 @@ export class WeatherComponent implements OnInit {
   searchQuery = '';
 
   ngOnInit() {
+    // Set the page title to "Weather" when this component is initialized
+    this.title.setTitle('Weather');
     // Default city search on component init
     this.searchQuery = 'Beirut';
     this.searchLocation();

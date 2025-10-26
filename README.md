@@ -1,6 +1,6 @@
 # Assessment
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
 
 ## Prerequisites
 
@@ -90,16 +90,6 @@ For a full list of schematics (components, directives, pipes, etc.):
 ng generate --help
 ```
 
-## Building
-
-To build the project for production:
-
-```bash
-ng build
-```
-
-The build artifacts will be stored in the `dist/` directory. Production builds are optimized for speed and performance.
-
 ## Running unit tests
 
 To execute unit tests with Karma:
@@ -107,16 +97,6 @@ To execute unit tests with Karma:
 ```bash
 ng test
 ```
-
-## Running end-to-end tests
-
-For e2e testing:
-
-```bash
-ng e2e
-```
-
-> Angular CLI does not include an e2e framework by default. You can choose one like Cypress or Protractor.
 
 ## Additional Resources
 

@@ -2,6 +2,7 @@ import { Component, signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-signup', // Component selector
@@ -12,6 +13,12 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Signup {
 
+  private title = inject(Title); // Inject Angular's Title service for setting the browser tab title
+
+  ngOnInit() {
+    // Set the page title to "Sign Up" when this component is initialized
+    this.title.setTitle('Sign Up');
+  }
   name = ''; // User's full name
   email = ''; // User's email
   password = ''; // User's password
@@ -36,10 +43,18 @@ export class Signup {
       return;
     }
 
+    // Validate email format
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(this.email)) {
+      this.errorMessage.set('Please enter a valid email address');
+      return;
+    }
+
+
     // Check if passwords match
     if (this.password !== this.confirmPassword) {
       this.errorMessage.set('Passwords do not match!');
-      return;          
+      return;
     }
 
     // Check password length
@@ -49,11 +64,15 @@ export class Signup {
     }
 
     // Attempt signup
-    try {
-      this.authService.signup(this.email, this.password);
-    } catch (err) {
-      // Handle signup errors
-      this.errorMessage.set(err instanceof Error ? err.message : 'An error occurred during signup');
-    }
+    // Call AuthService to perform signup
+    this.authService.signup(this.email, this.password).subscribe({
+      next: () => {
+        // Success handled in AuthService
+      },
+      error: (err) => {
+        // Display error message on failure
+        this.errorMessage.set(err instanceof Error ? err.message : 'An error occurred during signup');
+      }
+    });
   }
 }
