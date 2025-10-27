@@ -17,6 +17,7 @@
           </mat-form-field>
           <button (click)="searchLocation()" class="search-btn">Search</button>
         </div>
+        <p *ngIf="message" class="message">{{ message }}</p>
       </mat-card>
     </div>
 

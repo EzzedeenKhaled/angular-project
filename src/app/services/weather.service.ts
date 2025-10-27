@@ -7,6 +7,7 @@ export class WeatherService {
   currentLocation = signal<Location | null>(null); // Selected city location
   loading = signal(false); // Loading state
   error = signal<string | null>(null); // Error message
+  message = signal<string | null>(null); // Informational message
 
   forecastDays = computed(() => this.weatherData()?.daily.time || []); // 7-day forecast dates
 

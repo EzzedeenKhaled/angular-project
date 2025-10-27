@@ -59,6 +59,7 @@ export class WeatherComponent implements OnInit {
   get currentLocation() { return this.weatherService.currentLocation(); }
   get loading() { return this.weatherService.loading(); }
   get error() { return this.weatherService.error(); }
+  get message() { return this.weatherService.message(); }
 
   /**
    * Searches for a location using the geocoding API
@@ -66,7 +67,7 @@ export class WeatherComponent implements OnInit {
    */
   searchLocation() {
     if (!this.searchQuery.trim()) {
-      this.weatherService.error.set('Please enter a city name');
+      this.weatherService.message.set('Please enter a city name');
       return;
     }
 
@@ -86,7 +87,7 @@ export class WeatherComponent implements OnInit {
             });
             this.fetchWeatherData(location.latitude, location.longitude);
           } else {
-            this.weatherService.error.set('City not found. Please try another search.');
+            this.weatherService.message.set('City not found. Please try another search.');
             this.weatherService.loading.set(false);
           }
         },
