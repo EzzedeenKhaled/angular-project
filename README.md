@@ -98,8 +98,39 @@ To execute unit tests with Karma:
 ng test
 ```
 
+## Playwright End-to-End Testing
+
+Run all Playwright tests:
+
+```bash
+npx playwright test
+```
+
+Run a single test file:
+
+```bash
+npx playwright test path/to/test-file.spec.ts
+```
+
+Open Playwright Test Runner UI:
+
+```bash
+npx playwright test --ui
+```
+
+Run tests in headed mode (see the browser during test execution):
+
+```bash
+npx playwright test --headed
+```
+
 ## Additional Resources
 
 * [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli)
 * [Firebase Web Setup](https://firebase.google.com/docs/web/setup)
 * [Firebase Authentication](https://firebase.google.com/docs/auth/web/start)
+
+
+
+
+
