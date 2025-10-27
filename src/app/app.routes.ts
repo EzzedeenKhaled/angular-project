@@ -5,7 +5,9 @@ import { authGuard } from './guards/auth.guard';
 import { WeatherComponent } from './weather/weather.component';
 import { ShopComponent } from './shop/shop.component';
 import { GuestGuard } from './guards/guest.guard';
-
+import { ForgotPassword } from './forgot-password/forgot-password';
+import { ResetPassword } from './reset-password/reset-password';
+import { ResetPasswordGuard } from './guards/reset-password.guard';
 /**
  * Application routes configuration
  * - Protects routes using authGuard and GuestGuard
@@ -17,6 +19,12 @@ export const routes: Routes = [
 
   // Login page accessible only to guests
   { path: 'login', component: Login, canActivate: [GuestGuard] },
+
+  // Forgot Password page  
+  { path: 'forgot-password', component: ForgotPassword, canActivate: [GuestGuard] },
+
+  // Reset Password page  
+  { path: 'reset-password', component: ResetPassword, canActivate: [ResetPasswordGuard] },
 
   // Redirect root path to login
   { path: '', redirectTo: 'login', pathMatch: 'full' },

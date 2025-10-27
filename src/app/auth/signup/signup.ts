@@ -71,7 +71,7 @@ export class Signup {
       },
       error: (err) => {
         // Display error message on failure
-        this.errorMessage.set(err instanceof Error ? err.message : 'An error occurred during signup');
+        this.errorMessage.set('An error occurred during signup');
       }
     });
   }
