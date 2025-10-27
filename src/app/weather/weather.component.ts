@@ -117,6 +117,7 @@ export class WeatherComponent implements OnInit {
         this.weatherService.weatherData.set(data);
         this.weatherService.loading.set(false);
         this.weatherService.error.set(null);
+        this.weatherService.message.set(null);
       },
       error: () => {
         this.weatherService.error.set('Failed to fetch weather data. Please try again.');
