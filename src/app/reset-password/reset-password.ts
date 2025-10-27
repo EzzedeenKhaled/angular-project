@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Auth, confirmPasswordReset } from '@angular/fire/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [CommonModule, FormsModule, MatIconModule, RouterLink],
+  imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.css',
 })

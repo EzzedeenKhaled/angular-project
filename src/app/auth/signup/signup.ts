@@ -3,11 +3,11 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Title } from '@angular/platform-browser';
-
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-signup', // Component selector
   standalone: true, // Standalone component (no module required)
-  imports: [RouterLink, FormsModule], // Required imports for template
+  imports: [RouterLink, FormsModule, MatIconModule], // Required imports for template
   templateUrl: './signup.html',
   styleUrls: ['./signup.css']
 })
