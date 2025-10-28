@@ -22,5 +22,6 @@ export default defineConfig({
     command: 'ng serve',
     url: 'http://localhost:4200',
     reuseExistingServer: true,
+     timeout: 120_000,
   },
 });
